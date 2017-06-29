@@ -14,15 +14,26 @@ def strip_names(name_1,name_2):
     name_2 = name_2.strip('[\']"\s')
     name_1 = name_1.partition('@')[0]
     name_2 = name_2.partition('@')[0]
-    name_1 = name_1.replace(" ", "")
-    name_2 = name_2.replace(" ", "")
+    fn = name_1.partition(' ')[0]
+    ln = name_1.partition(' ')[2]
+    ln_length = len(ln)
+    name_1 = ln + fn
+    fn = name_2.partition(' ')[0]
+    ln = name_2.partition(' ')[2]
+    name_2 = ln + fn
     name_1 = name_1.lower()
     name_2 = name_2.lower()
-    return name_1, name_2
+    return name_1, name_2, ln_length
 
 
-def calculate_lev_distance(name_1, name_2):
-    return Levenshtein.jaro(name_1, name_2)
+def calculate_lev_distance(name_1, name_2, ln_length):
+    if ln_length > 0:
+        p = len(name_1)/ ln_length
+        
+    else: 
+        p = .1
+    return Levenshtein.jaro_winkler(name_1, name_2, p)
+
 
 def update_dict(name_dict,name,new_name,dist):
     name_tuple = (new_name,dist)
@@ -36,6 +47,8 @@ def update_dict(name_dict,name,new_name,dist):
 
 
 #joint lists
+no_names = 0
+no_emails = 0
 fb_names = []
 joinery_names = []
 joinery_emails = []
@@ -81,7 +94,17 @@ for row in All_Joinery_Users_Csv:
         j_name, j_fn, j_ln, j_email, j_lister = row
         if j_name != '""' and j_name != '':
             joinery_names.append(j_name)
-        joinery_emails.append(j_email)
+            if j_email != '' and j_email != '""':    
+                joinery_emails.append(j_email)
+            else:
+                no_emails +=1
+
+        else:
+            no_names += 1   
+
+          
+
+        
                 
     
 
@@ -100,25 +123,25 @@ i = 0
 for name in fb_names:
     j = 0
     for j_name in joinery_names:
-        name_1, name_2 = strip_names(name, j_name)
+        name_1, name_2, l = strip_names(name, j_name)
         if name_1 != "" and name_2 != "":
-            L_dist = calculate_lev_distance(name_1,name_2)
+            L_dist = calculate_lev_distance(name_1,name_2, l)
             
-            if L_dist > .8:
-                update_dict(joint_names, name_1, name_2, L_dist)
+            
+            update_dict(joint_names, name_1, name_2, L_dist)
                 #print(name_1 + "||" +  name_2 + "||" +  str(L_dist))
                 #print('--------------------------')
                 #if j > 1000:
                     #break
-                j+=1
+            j+=1
     k = 0            
     for j_email in joinery_emails:
-        name_1, name_2 = strip_names(name, j_email)
+        name_1, name_2, l= strip_names(name, j_email)
         if name_1 != "" and name_2 != "":
-            L_dist = calculate_lev_distance(name_1,name_2)
+            L_dist = calculate_lev_distance(name_1,name_2, l)
 
-            if L_dist >.6:  
-                update_dict(joint_emails, name_1, j_email, L_dist)
+            
+            update_dict(joint_emails, name_1, j_email, L_dist)
                 #if k >1000:
                     #break
         #if i >1000:
@@ -126,7 +149,8 @@ for name in fb_names:
         i+=1
 
 
-
+print('no names:',no_names)
+print('no emails',no_emails)
 print('NAMES:')
 print('-----------------------------------------------------')
 print('-----------------------------------------------------')
