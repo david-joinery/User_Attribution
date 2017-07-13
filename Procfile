@@ -1,1 +1,1 @@
-web: gunicorn user_attribution_v2:application --log-file=-
+worker: gunicorn user_attribution_v2:application --log-file=-
