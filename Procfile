@@ -1,2 +1,2 @@
-web: python user_attribution_v2.py
-worker: python user_attribution_v2.py
+web:	gunicorn user_attribution_v2:web --log-file=-
+worker: gunicorn user_attribution_v2:worker --log-file=-
