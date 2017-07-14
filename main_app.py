@@ -4,5 +4,5 @@ app = flask.Flask(__name__)
 @app.route("/")
 
 def index():
-	print('user-attribution-metrics')
+	return('user-attribution-metrics')
 
