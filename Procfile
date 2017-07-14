@@ -1,2 +1,2 @@
-web:	gunicorn user-attribution-metrics--log-file=-
-worker: gunicorn user-attribution-metrics --log-file=-
+web:	gunicorn user_attribution_v2:app --log-file=-
+worker: gunicorn user_attribution_v2:app --log-file=-

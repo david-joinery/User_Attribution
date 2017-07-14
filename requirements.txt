@@ -1,6 +1,7 @@
 dj-database-url==0.4.1
 Django==1.11
 gunicorn==19.6.0
+flask==0.12.2
 psycopg2==2.6.2
-whitenoise==2.0.6
+whitenoise==2.  0.6
 https://pypi.python.org/packages/42/a9/d1785c85ebf9b7dfacd08938dd028209c34a0ea3b1bcdb895208bd40a67d/python-Levenshtein-0.12.0.tar.gz
