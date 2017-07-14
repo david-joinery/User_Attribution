@@ -172,30 +172,9 @@ def index():
                 joint_names_2 = update_dict(joint_names_2, name_1, name_2, fn_first_jw_dist)
                 joint_names_3 = update_dict(joint_names_3, name_1, name_2, ln_first_j_dist)
                 joint_names_4 = update_dict(joint_names_4, name_1, name_2, ln_first_jw_dist)
-                    #print(name_1 + "||" +  name_2 + "||" +  str(L_dist))
-                    #print('--------------------------')
-                #if j > 1000:
-                    #break
-                #j+=1
+                    
 
 
-
-    ####### code for matching emails to names(not currently used due to bad accuracy) ########
-        # k = 0            
-        # for j_email in joinery_emails:
-        #     name_1, name_2, l= strip_names(name, j_email)
-        #     if name_1 != "" and name_2 != "":
-        #         L_dist = calculate_lev_distance(name_1,name_2, l)
-
-                
-        #         joint_emails = update_dict(joint_emails, name_1, j_email, L_dist)
-        #         #if k >1000:
-        #             #break
-        #         k+=1
-        #if i >1000:
-            #break
-        #i+=1
-    ###########################################################################################
 
     print('NAMES:')
     print('-----------------------------------------------------')
@@ -206,12 +185,5 @@ def index():
     print('\n')
     print('\n')
 
-    #print('EMAILS:')
-    #print('-----------------------------------------------------')
-    #print('-----------------------------------------------------')
-    #attr_writer.writerow(['name','matched email','distance'])
-    #for x in joint_emails:
-     ##  print(x,": ",joint_emails[x])
-    #pdb.set_trace()
     print('no names:',no_names)
     #print('no emails',no_emails)
