@@ -186,4 +186,5 @@ def index():
     print('\n')
 
     print('no names:',no_names)
+    return csv_metrics
     #print('no emails',no_emails)
