@@ -9,7 +9,7 @@ from os.path import isfile, join
 import Levenshtein
 import pdb
 
-app = flask.Flask(user-attribution-metrics)
+app = flask.Flask('user-attribution-metrics')
 @app.route("/")
 
 def strip_names(name_1,name_2, reverse):
