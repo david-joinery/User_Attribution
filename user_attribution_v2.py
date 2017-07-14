@@ -75,116 +75,116 @@ def update_dict(name_dict,name,new_name,dist):
         #2print('new')
     return name_dict
 
-def index():
-    #joint lists
-    no_names = 0
-    #no_emails = 0
-    fb_names = []
-    joinery_names = []
-    #joinery_emails = []
-    joint_names_1 = {}
-    joint_names_2 = {}
-    joint_names_3 = {}
-    joint_names_4 = {}
-    #joint_emails = {}
-    name_tuple = ()
+
+#joint lists
+no_names = 0
+#no_emails = 0
+fb_names = []
+joinery_names = []
+#joinery_emails = []
+joint_names_1 = {}
+joint_names_2 = {}
+joint_names_3 = {}
+joint_names_4 = {}
+#joint_emails = {}
+name_tuple = ()
 
 
-    #Retrieve List A
-    Joinery_Submitted_Listers_Data = 'https://app.periscopedata.com/api/joinery/chart/csv/6f01842a-d46c-a7d8-7863-9392a91441c9'
+#Retrieve List A
+Joinery_Submitted_Listers_Data = 'https://app.periscopedata.com/api/joinery/chart/csv/6f01842a-d46c-a7d8-7863-9392a91441c9'
 
-    #Retrieve List C
-    All_Joinery_Users_Data = 'https://app.periscopedata.com/api/joinery/chart/csv/da87726f-452b-8210-919d-154d62087875'
+#Retrieve List C
+All_Joinery_Users_Data = 'https://app.periscopedata.com/api/joinery/chart/csv/da87726f-452b-8210-919d-154d62087875'
 
-    #Ingest Data
-    Joinery_Submitted_Listers,Submitted_Headers =urlretrieve(Joinery_Submitted_Listers_Data)
-    All_Joinery_Users,Joinery_Headers = urlretrieve(All_Joinery_Users_Data)
+#Ingest Data
+Joinery_Submitted_Listers,Submitted_Headers =urlretrieve(Joinery_Submitted_Listers_Data)
+All_Joinery_Users,Joinery_Headers = urlretrieve(All_Joinery_Users_Data)
 
-    Submitted_csv_file = open(Joinery_Submitted_Listers,'rt')
-    Joinery_Submitted_Listers_Csv = csv.reader(Submitted_csv_file,delimiter='\n')
-    next(Joinery_Submitted_Listers_Csv)
+Submitted_csv_file = open(Joinery_Submitted_Listers,'rt')
+Joinery_Submitted_Listers_Csv = csv.reader(Submitted_csv_file,delimiter='\n')
+next(Joinery_Submitted_Listers_Csv)
 
-    All_Joinery_Users_file = open(All_Joinery_Users,'rt')
-    All_Joinery_Users_Csv = csv.reader(All_Joinery_Users_file,delimiter = '\n')
-    next(All_Joinery_Users_Csv)
-
-
-
-    ##loop through csv rows for Submitted_Listers
-    for row in Joinery_Submitted_Listers_Csv:
-        row = str(row).split(',')
-        #print(row)
-        #assign data to individual variables
-        fb_name, fb_fn, fb_ln, fb_date, fb_custom_aud_id, fb_aud_name, fb_custom_aud_id = row
-        if fb_name != '""' and fb_name != '' and fb_name != '[\'' and fb_name != '["':
-            #print(fb_name)
-            fb_names.append(fb_name)
-            
+All_Joinery_Users_file = open(All_Joinery_Users,'rt')
+All_Joinery_Users_Csv = csv.reader(All_Joinery_Users_file,delimiter = '\n')
+next(All_Joinery_Users_Csv)
 
 
-    for row in All_Joinery_Users_Csv:
-        row = str(row).split(',')
-        if len(row) <= 5:
-            j_name, j_fn, j_ln, j_email, j_lister = row
-            if j_name != '""' and j_name != '' and j_name != '[\'' and j_name != '["':
-                #print(j_name)
-                joinery_names.append(j_name)
-            else:
-                no_names += 1
-            #if j_email != '' and j_email != '""' and j_email != '[\'' and j_email != '["':    
-                #joinery_emails.append(j_email)
-            #else:
-                #no_emails +=1
 
-               
-
-              
-
-            
-                    
+##loop through csv rows for Submitted_Listers
+for row in Joinery_Submitted_Listers_Csv:
+    row = str(row).split(',')
+    #print(row)
+    #assign data to individual variables
+    fb_name, fb_fn, fb_ln, fb_date, fb_custom_aud_id, fb_aud_name, fb_custom_aud_id = row
+    if fb_name != '""' and fb_name != '' and fb_name != '[\'' and fb_name != '["':
+        #print(fb_name)
+        fb_names.append(fb_name)
         
 
-    #sort lists
-    fb_names.sort()
-    joinery_names.sort()
 
+for row in All_Joinery_Users_Csv:
+    row = str(row).split(',')
+    if len(row) <= 5:
+        j_name, j_fn, j_ln, j_email, j_lister = row
+        if j_name != '""' and j_name != '' and j_name != '[\'' and j_name != '["':
+            #print(j_name)
+            joinery_names.append(j_name)
+        else:
+            no_names += 1
+        #if j_email != '' and j_email != '""' and j_email != '[\'' and j_email != '["':    
+            #joinery_emails.append(j_email)
+        #else:
+            #no_emails +=1
 
-    csv_metrics = open('attr_metrics.csv', 'w', newline='')
-    fieldnames = ['name','matched name','fn first jaro distance', 'fn first jaro-winkler distance', 'ln first jaro distance', 'ln first jaro-winkler distance']
-    attr_writer = csv.writer(csv_metrics, fieldnames)
-    attr_writer.writerow(fieldnames)
+           
 
+          
 
-    i = 0
-    for name in fb_names:
-        j = 0
-        for j_name in joinery_names:
-            name_1, name_2, l = strip_names(name, j_name, False)
-            rname_1, rname_2, rl = strip_names(name, j_name, True)
-            if name_1 != "" and name_2 != "":
-                fn_first_j_dist = calculate_lev_distance(name_1, name_2, l, False)
-                fn_first_jw_dist = calculate_lev_distance(name_1, name_2, l, True)
-                ln_first_j_dist = calculate_lev_distance(rname_1, rname_2, rl , False)
-                ln_first_jw_dist = calculate_lev_distance(rname_1, rname_2, rl , True)
+        
                 
+    
+
+#sort lists
+fb_names.sort()
+joinery_names.sort()
+
+
+csv_metrics = open('attr_metrics.csv', 'w', newline='')
+fieldnames = ['name','matched name','fn first jaro distance', 'fn first jaro-winkler distance', 'ln first jaro distance', 'ln first jaro-winkler distance']
+attr_writer = csv.writer(csv_metrics, fieldnames)
+attr_writer.writerow(fieldnames)
+
+
+i = 0
+for name in fb_names:
+    j = 0
+    for j_name in joinery_names:
+        name_1, name_2, l = strip_names(name, j_name, False)
+        rname_1, rname_2, rl = strip_names(name, j_name, True)
+        if name_1 != "" and name_2 != "":
+            fn_first_j_dist = calculate_lev_distance(name_1, name_2, l, False)
+            fn_first_jw_dist = calculate_lev_distance(name_1, name_2, l, True)
+            ln_first_j_dist = calculate_lev_distance(rname_1, rname_2, rl , False)
+            ln_first_jw_dist = calculate_lev_distance(rname_1, rname_2, rl , True)
+            
+            
+            joint_names_1 = update_dict(joint_names_1, name_1, name_2, fn_first_j_dist)
+            joint_names_2 = update_dict(joint_names_2, name_1, name_2, fn_first_jw_dist)
+            joint_names_3 = update_dict(joint_names_3, name_1, name_2, ln_first_j_dist)
+            joint_names_4 = update_dict(joint_names_4, name_1, name_2, ln_first_jw_dist)
                 
-                joint_names_1 = update_dict(joint_names_1, name_1, name_2, fn_first_j_dist)
-                joint_names_2 = update_dict(joint_names_2, name_1, name_2, fn_first_jw_dist)
-                joint_names_3 = update_dict(joint_names_3, name_1, name_2, ln_first_j_dist)
-                joint_names_4 = update_dict(joint_names_4, name_1, name_2, ln_first_jw_dist)
-                    
 
 
 
-    print('NAMES:')
-    print('-----------------------------------------------------')
-    print('-----------------------------------------------------')
-    for name in joint_names_1:
-        #print(name,": ",joint_names_[name])
-        attr_writer.writerow([name,joint_names_1[name][0],joint_names_1[name][1],joint_names_2[name][1], joint_names_3[name][1], joint_names_4[name][1]])
-    print('\n')
-    print('\n')
+print('NAMES:')
+print('-----------------------------------------------------')
+print('-----------------------------------------------------')
+for name in joint_names_1:
+    #print(name,": ",joint_names_[name])
+    attr_writer.writerow([name,joint_names_1[name][0],joint_names_1[name][1],joint_names_2[name][1], joint_names_3[name][1], joint_names_4[name][1]])
+print('\n')
+print('\n')
 
-    print('no names:',no_names)
-    return csv_metrics
-    #print('no emails',no_emails)
+print('no names:',no_names)
+#return csv_metrics
+#print('no emails',no_emails)
