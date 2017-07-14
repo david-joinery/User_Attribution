@@ -1,6 +1,6 @@
 import flask
 #import user_attribution_v2
-app = flask.Flask('__user-attribution-metrics__')
+app = flask.Flask(__name__)
 @app.route("/")
 
 def index():
