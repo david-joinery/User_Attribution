@@ -17,4 +17,5 @@ def index():
 	#return(user_attribution_v2)
 	q = Queue(connection=conn)
 	result = q.enqueue(count_words_at_url, 'http://heroku.com')
+	return result
 
