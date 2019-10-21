@@ -24,7 +24,7 @@ requests==2.18.1
 rq==0.8.0
 urllib3==1.21.1
 urlopen==1.0.0
-Werkzeug==0.12.2
+Werkzeug==0.15.3
 bitly-api==0.3
 bitlyapi==0.1.1
 certifi==2017.4.17
@@ -47,4 +47,4 @@ requests==2.18.1
 rq==0.8.0
 urllib3==1.21.1
 urlopen==1.0.0
-Werkzeug==0.12.2
+Werkzeug==0.15.3
