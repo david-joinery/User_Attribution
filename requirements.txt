@@ -4,7 +4,7 @@ psycopg2==2.6.2
 whitenoise==2.0.6
 bitly-api==0.3
 bitlyapi==0.1.1
-certifi==2017.4.17
+certifi==2022.12.7
 chardet==3.0.4
 chicken==0.1.0
 click==6.7
@@ -27,7 +27,7 @@ urlopen==1.0.0
 Werkzeug==0.12.2
 bitly-api==0.3
 bitlyapi==0.1.1
-certifi==2017.4.17
+certifi==2022.12.7
 chardet==3.0.4
 chicken==0.1.0
 click==6.7
